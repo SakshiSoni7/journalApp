@@ -1,14 +1,14 @@
-package com.blockCode.journalApp;
+package com.codeBlock.journalApp;
 
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class JournalApp {
+public class JournalApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(JournalApp.class, args);
+        SpringApplication.run(JournalApplication.class, args);
     }
 
 

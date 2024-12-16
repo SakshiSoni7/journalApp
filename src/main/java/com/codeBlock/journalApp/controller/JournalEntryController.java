@@ -1,6 +1,8 @@
-package com.blockCode.journalApp.controller;
+//Id type is changed from Long to String, that's why giving error
 
-import com.blockCode.journalApp.entitiy.JournalEntry;
+/*package com.blockCode.journalApp.controller;
+
+import com.blockCode.journalApp.entity.JournalEntry;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -9,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/journal")
+@RequestMapping("/_journal")
 public class JournalEntryController {
 
     private Map<Long, JournalEntry> journalEntries= new HashMap<>();
@@ -46,3 +48,4 @@ public class JournalEntryController {
         return journalEntries.put(id,journalEntry);
     }
 }
+*/
