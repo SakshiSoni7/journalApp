@@ -1,10 +1,10 @@
-package com.blockCode.journalApp;
+package com.codeBlock.journalApp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class JournalAppApplicationTests {
+class JournalApplicationTests {
 
 	@Test
 	void contextLoads() {
