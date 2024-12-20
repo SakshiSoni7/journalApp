@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,6 +22,7 @@ public class JournalEntryService {
     @Autowired
     private UserService userService;
 
+    @Transactional
     public void saveEntry(JournalEntry journalEntry, String userName)
     {
         try {
@@ -28,7 +30,8 @@ public class JournalEntryService {
             journalEntry.setDate(LocalDateTime.now());
             JournalEntry saved = journalEntryRepository.save(journalEntry);
             user.getJournalEntries().add(saved);
-            userService.saveEntry(user);
+            //user.setUserName(null); Added for checking transaction
+            userService.saveUser(user);
         }catch (Exception exception)
         {
             log.error("Exception : ",exception);
@@ -56,12 +59,23 @@ public class JournalEntryService {
         return journalEntryRepository.findById(id);
     }
 
-    public void deleteById(ObjectId id, String userName)
+    @Transactional
+    public boolean deleteById(ObjectId id, String userName)
     {
-        User user = userService.findByUserName(userName);
-        user.getJournalEntries().removeIf(x -> x.getId().equals(id));
-        userService.saveEntry(user);
-        journalEntryRepository.deleteById(id);
+        boolean removed = false;
+        try {
+            User user = userService.findByUserName(userName);
+            removed = user.getJournalEntries().removeIf(x -> x.getId().equals(id));
+            if(removed) {
+                userService.saveUser(user);
+                journalEntryRepository.deleteById(id);
+            }
+        }catch (Exception exception)
+        {
+            System.out.println(exception);
+            throw new RuntimeException("An error occurred while deleting the entry. ",exception);
+        }
+        return removed;
     }
 
 }
